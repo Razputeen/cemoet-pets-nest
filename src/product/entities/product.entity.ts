@@ -11,7 +11,7 @@ import {
 
 @Entity()
 export class Product {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({})
@@ -35,7 +35,7 @@ export class Product {
   @Column()
   brand: string;
 
-  @Column({nullable: true})
+  @Column()
   weight: number;
 
   @Column()
