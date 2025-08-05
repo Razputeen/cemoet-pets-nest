@@ -17,28 +17,28 @@ export class Product {
   @Column({})
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   price: number;
 
-  @Column()
+  @Column({ nullable: true })
   description: string;
 
   @Column({ nullable: true })
   image: string;
 
-  @Column()
+  @Column({ nullable: true })
   stock: number;
 
-  @Column()
+  @Column({ nullable: true })
   category: string;
 
-  @Column()
+  @Column({ nullable: true })
   brand: string;
 
-  @Column()
+  @Column({ nullable: true })
   weight: number;
 
-  @Column()
+  @Column({ nullable: true })
   specification: string;
 
   @Column({
