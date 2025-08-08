@@ -19,6 +19,9 @@ import { DoctorsModule } from './doctors/doctors.module';
 import { RoleModule } from './role/role.module';
 import { GroomsModule } from './grooms/grooms.module';
 import { GroomingReservationModule } from './grooming-reservation/grooming-reservation.module';
+import { UploadModule } from './upload/upload.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -114,6 +117,11 @@ import { GroomingReservationModule } from './grooming-reservation/grooming-reser
     RoleModule,
     GroomsModule,
     GroomingReservationModule,
+    UploadModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+      serveRoot: '/uploads', // akses via http://localhost:3000/uploads/...
+    }),
   ],
   providers: [],
 })
