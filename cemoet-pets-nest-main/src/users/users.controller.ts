@@ -47,6 +47,11 @@ export class UsersController {
     };
   }
 
+  @Get(':name')
+  findOneByName(@Param('name') Name: string) {
+    return this.usersService.findOneByName(Name);
+  }
+
   @Put(':id')
   async update(
     @Param('id', ParseUUIDPipe) id: string,
