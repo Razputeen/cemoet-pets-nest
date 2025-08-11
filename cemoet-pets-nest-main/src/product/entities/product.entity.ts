@@ -1,10 +1,12 @@
 
 
+import { ProductImage } from '#/productimage/entities/productimage.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -23,8 +25,8 @@ export class Product {
   @Column()
   description: string;
 
-  @Column({ nullable: true })
-  image: string;
+  @OneToMany(() => ProductImage, (image) => image.product, { cascade: true })
+  images: ProductImage[];
 
   @Column()
   stock: number;

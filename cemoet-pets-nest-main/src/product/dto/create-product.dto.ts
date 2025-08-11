@@ -12,6 +12,9 @@ export class CreateProductDto {
     description: string
 
     @IsNotEmpty()
+    image: string
+
+    @IsNotEmpty()
     stock: number
 
     @IsNotEmpty()

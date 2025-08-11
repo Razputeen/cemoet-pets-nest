@@ -22,6 +22,7 @@ import { GroomingReservationModule } from './grooming-reservation/grooming-reser
 import { UploadModule } from './upload/upload.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { ProductimageModule } from './productimage/productimage.module';
 
 @Module({
   imports: [
@@ -122,6 +123,7 @@ import { join } from 'path';
       rootPath: join(__dirname, '..', 'uploads'),
       serveRoot: '/uploads', // akses via http://localhost:3000/uploads/...
     }),
+    ProductimageModule,
   ],
   providers: [],
 })
