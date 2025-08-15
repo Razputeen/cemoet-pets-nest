@@ -23,6 +23,9 @@ import { UploadModule } from './upload/upload.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { ProductimageModule } from './productimage/productimage.module';
+import { CartModule } from './cart/cart.module';
+import { MidtransService } from './midtrans/midtrans.service';
+import { PaymentsController } from './payment/payment.controller';
 
 @Module({
   imports: [
@@ -124,7 +127,9 @@ import { ProductimageModule } from './productimage/productimage.module';
       serveRoot: '/uploads', // akses via http://localhost:3000/uploads/...
     }),
     ProductimageModule,
+    CartModule,
   ],
-  providers: [],
+  providers: [MidtransService],
+  controllers: [PaymentsController],
 })
 export class AppModule {}

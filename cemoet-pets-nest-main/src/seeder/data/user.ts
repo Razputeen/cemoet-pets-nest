@@ -11,6 +11,7 @@ export const userMasterData: User[] = [
       id: '085bc84f-e13a-467f-9eb7-0f521329cc2a', name: 'admin',
       users: []
     },
+    cart: null,
     phoneNum: '08123456789',
     reserveGroom: [],
     alamatPick: [],
@@ -19,5 +20,6 @@ export const userMasterData: User[] = [
     updatedAt: new Date(),
     deletedAt: null,
     version: 1,
+    carts: undefined
   },
 ];

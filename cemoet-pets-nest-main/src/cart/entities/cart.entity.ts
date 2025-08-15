@@ -1,55 +1,42 @@
 
-
-import { Cart } from '#/cart/entities/cart.entity';
-import { ProductImage } from '#/productimage/entities/productimage.entity';
+import { Product } from '#/product/entities/product.entity';
+import { User } from '#/users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
-export class Product {
-  @PrimaryGeneratedColumn('uuid')
+export class Cart {
+  @PrimaryGeneratedColumn()
   id: string;
 
   @Column({})
   name: string;
 
   @Column()
-  price: number;
+  total: number;
 
-  @Column()
-  description: string;
+  @Column({default: 1})
+  quantity: number;
 
-  @OneToMany(() => ProductImage, (image) => image.product, { cascade: true })
-  images: ProductImage[];
+  @OneToOne(() => User, user => user.carts, { nullable: true, cascade: true })
+  @JoinColumn({ name: 'userId' })
+  user: User;
 
-  @Column()
-  stock: number;
-
-  @Column()
-  category: string;
-
-  @Column()
-  brand: string;
-
-  @Column()
-  weight: number;
-
-  @Column()
-  specification: string;
-
-  @ManyToMany(() => Cart, (cart) => cart.products, { nullable: true, cascade: true })
-  cart: Cart[]
-  
+  @ManyToMany(() => Product, product => product.cart,)
+    @JoinTable()
+  products: Product[];
 
   @Column({
     name: 'is_activated',

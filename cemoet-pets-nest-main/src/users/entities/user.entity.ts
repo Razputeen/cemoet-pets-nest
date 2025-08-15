@@ -1,4 +1,5 @@
 import { Alamat } from '#/alamat/entities/alamat.entity';
+import { Cart } from '#/cart/entities/cart.entity';
 import { GroomingReservation } from '#/grooming-reservation/entities/grooming-reservation.entity';
 import { GroomingReservationService } from '#/grooming-reservation/grooming-reservation.service';
 import { Role } from '#/role/entities/role.entity';
@@ -37,6 +38,9 @@ export class User {
 
   @OneToMany(() => GroomingReservation, (reserveGroom) => reserveGroom.user, {})
   reserveGroom: GroomingReservation[];
+
+  @OneToOne(() => Cart, (cart) => cart.user, {nullable: true})
+  cart: Cart;
   
   @OneToOne(() => Alamat, alamat => alamat.user)
   alamatPick: Alamat[];
@@ -64,4 +68,5 @@ export class User {
 
   @VersionColumn()
   version: number;
+    carts: any;
 }

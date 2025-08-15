@@ -34,7 +34,7 @@ export class UsersService {
   findAll() {
     return this.usersRepository.find(
       {
-        relations: ['role', 'reserveGroom']
+        relations: ['role', 'reserveGroom', 'cart']
       }
     );
   }
@@ -43,7 +43,7 @@ export class UsersService {
   try {
     return await this.usersRepository.findOneOrFail({
       where: { Name },
-      relations: ['role', 'reserveGroom']
+      relations: ['role', 'reserveGroom', 'cart']
     });
     } catch (e) {
       if (e instanceof EntityNotFoundError) {
@@ -63,7 +63,7 @@ export class UsersService {
   async findOneWithGroom(id: string) {
   return this.usersRepository.findOne({
     where: { id },
-    relations: ['reserveGroom'],
+    relations: ['reserveGroom', 'cart'],
   });
 }
 
@@ -71,7 +71,7 @@ export class UsersService {
   try {
     return await this.usersRepository.findOneOrFail({
       where: { id },
-      relations: ['role', 'reserveGroom']
+      relations: ['role', 'reserveGroom', 'cart']
     });
     } catch (e) {
       if (e instanceof EntityNotFoundError) {
