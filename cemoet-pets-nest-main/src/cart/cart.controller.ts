@@ -3,6 +3,7 @@ import { CartService } from './cart.service';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
 import { AuthGuard } from '#/auth/auth.guard';
+import { AddToCartDto } from '#/cart/dto/create-cart.dto';
 
 @Controller('cart')
 export class CartController {
@@ -14,31 +15,33 @@ export class CartController {
   }
   @UseGuards(AuthGuard)
   @Post('add')
-  async addToCart(
-    @Req() req,
-    @Body('productId') productId: string,
+  async addToCart(@Body() body: { userId: string; productId: string; quantity: number }) {
+    return this.cartService.addToCart(body.userId, body.productId, body.quantity);
+  }
+    @Get('user/:userId')
+  async getCartByUser(@Param('userId') userId: string) {
+    return this.cartService.findByUserId(userId);
+  }
+  @Patch(':cartId/:productId')
+  async updateQuantity(
+    @Param('cartId') cartId: string,
+    @Param('productId') productId: string,
     @Body('quantity') quantity: number,
   ) {
-    const userId = req.user.id; // dari token
-    return this.cartService.addToCart(userId, productId, quantity);
+    return this.cartService.updateQuantity(cartId, productId, quantity);
   }
-
-  @Get('user/:userId')
-async getCartByUser(@Param('userId') userId: string) {
-  return this.cartService.findByUserId(userId);
-}
-@Patch(':cartId')
-updateQuantity(
-  @Param('cartId') cartId: string,
-  @Body('quantity') quantity: number,
-) {
-  return this.cartService.updateQuantity(cartId, quantity);
-}
 
   @Delete(':cartId')
   removeItem(@Param('cartId') cartId: string) {
     return this.cartService.removeItem(cartId);
   }
+
+@Post('checkout/:id')
+@UseGuards(AuthGuard)
+async checkout(@Param('id') cartId: string, @Req() req) {
+  const userId = req.user.id; // ini baru ada
+  return this.cartService.checkout(cartId, userId);
+}
 
   @Get()
   findAll() {

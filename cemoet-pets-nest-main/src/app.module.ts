@@ -25,7 +25,9 @@ import { join } from 'path';
 import { ProductimageModule } from './productimage/productimage.module';
 import { CartModule } from './cart/cart.module';
 import { MidtransService } from './midtrans/midtrans.service';
-import { PaymentsController } from './payment/payment.controller';
+import { MidtransController } from './payment/payment.controller';
+import { MidtransModule } from './midtrans/midtrans.module';
+import { CartitemModule } from './cartitem/cartitem.module';
 
 @Module({
   imports: [
@@ -124,12 +126,14 @@ import { PaymentsController } from './payment/payment.controller';
     UploadModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
-      serveRoot: '/uploads', // akses via http://localhost:3000/uploads/...
+      serveRoot: '/uploads',
     }),
     ProductimageModule,
     CartModule,
+    MidtransModule,
+    CartitemModule,
   ],
   providers: [MidtransService],
-  controllers: [PaymentsController],
+  controllers: [MidtransController],
 })
 export class AppModule {}

@@ -1,4 +1,5 @@
 
+import { CartItem } from '#/cartitem/entities/cartitem.entity';
 import { Product } from '#/product/entities/product.entity';
 import { User } from '#/users/entities/user.entity';
 import {
@@ -21,7 +22,7 @@ export class Cart {
   @PrimaryGeneratedColumn()
   id: string;
 
-  @Column({})
+  @Column({default: 'My Cart', nullable: true})
   name: string;
 
   @Column()
@@ -34,9 +35,21 @@ export class Cart {
   @JoinColumn({ name: 'userId' })
   user: User;
 
-  @ManyToMany(() => Product, product => product.cart,)
-    @JoinTable()
-  products: Product[];
+  @OneToMany(() => CartItem, (cartItem) => cartItem.cart, { cascade: true })
+  items: CartItem[];
+
+    @Column({ nullable: true })
+  midtransToken: string;
+
+  @Column({ nullable: true })
+  midtransRedirectUrl: string;
+
+  @Column({ nullable: true })
+  transactionStatus: string; // settlement, pending, cancel, etc.
+
+  @Column({ type: 'jsonb', nullable: true })
+  midtransResponse: any;
+
 
   @Column({
     name: 'is_activated',
@@ -58,12 +71,4 @@ export class Cart {
     default: () => 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
-
-  @DeleteDateColumn({
-    name: 'deleted_at',
-    type: 'timestamp',
-    nullable: true,
-    default: null,
-  })
-  deletedAt: Date;
 }

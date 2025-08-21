@@ -1,6 +1,7 @@
 
 
 import { Cart } from '#/cart/entities/cart.entity';
+import { CartItem } from '#/cartitem/entities/cartitem.entity';
 import { ProductImage } from '#/productimage/entities/productimage.entity';
 import {
   Column,
@@ -26,6 +27,12 @@ export class Product {
   @Column()
   price: number;
 
+  @Column({default: 0})
+  quantity: number;
+
+  @Column({default: 0})
+  total: number;
+
   @Column()
   description: string;
 
@@ -46,10 +53,9 @@ export class Product {
 
   @Column()
   specification: string;
-
-  @ManyToMany(() => Cart, (cart) => cart.products, { nullable: true, cascade: true })
-  cart: Cart[]
   
+  @OneToMany(() => CartItem, (item) => item.product)
+  cartItems: CartItem[];
 
   @Column({
     name: 'is_activated',
@@ -79,4 +85,5 @@ export class Product {
     default: null,
   })
   deletedAt: Date;
+    productCarts: any;
 }
