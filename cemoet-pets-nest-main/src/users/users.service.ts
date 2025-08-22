@@ -21,7 +21,7 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto) {
     const defaultRole = await this.rolesRepository.findOneBy({
-      id: 'd36fea80-2735-4b72-8903-8157507779ec',
+      id: '2',
     });
     if (!defaultRole) {
       throw new Error('Default role tidak ditemukan');

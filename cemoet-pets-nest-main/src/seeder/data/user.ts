@@ -8,7 +8,7 @@ export const userMasterData: User[] = [
     email: 'Mako@example.com',
     password: '123',
     role: {
-      id: '085bc84f-e13a-467f-9eb7-0f521329cc2a', name: 'admin',
+      id: '1', name: 'admin',
       users: []
     },
     cart: null,
