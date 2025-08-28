@@ -6,10 +6,11 @@ import { User } from './entities/user.entity';
 import { GroomingReservation } from '#/grooming-reservation/entities/grooming-reservation.entity';
 import { Role } from '#/role/entities/role.entity';
 import { Cart } from '#/cart/entities/cart.entity';
+import { Clinic } from '#/clinic/entities/clinic.entity';
 
 @Module({
   exports: [UsersService],
-  imports: [TypeOrmModule.forFeature([User, GroomingReservation, Role, Cart])],
+  imports: [TypeOrmModule.forFeature([User, GroomingReservation, Role, Cart, Clinic])],
   controllers: [UsersController],
   providers: [UsersService],
 })

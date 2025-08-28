@@ -1,5 +1,6 @@
 import { Alamat } from '#/alamat/entities/alamat.entity';
 import { Cart } from '#/cart/entities/cart.entity';
+import { Clinic } from '#/clinic/entities/clinic.entity';
 import { GroomingReservation } from '#/grooming-reservation/entities/grooming-reservation.entity';
 import { GroomingReservationService } from '#/grooming-reservation/grooming-reservation.service';
 import { Order } from '#/order/entities/order.entity';
@@ -48,6 +49,9 @@ export class User {
 
   @OneToMany(() => Order, (order) => order.user, {})
   order: Order[];
+
+  @OneToMany(() => Clinic, (clinic) => clinic.user, {nullable: true})
+  clinic: Clinic[];
   
   @Column({ default: true })
   isActive: boolean;
