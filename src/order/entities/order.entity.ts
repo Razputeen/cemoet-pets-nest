@@ -6,7 +6,7 @@ import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGenerate
 // order.entity.ts
 @Entity()
 export class Order {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn('increment')
   id: string;
 
   @ManyToOne(() => User, (user) => user.order)

@@ -102,6 +102,7 @@ async checkout(cartId: string, userId: string) {
     price: item.product.price,
     quantity: item.quantity,
     total: item.quantity * item.product.price,
+    
   }));
 
   const grossAmount = orderItemsData.reduce((sum, i) => sum + i.total, 0);

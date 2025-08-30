@@ -30,6 +30,7 @@ import { MidtransModule } from './midtrans/midtrans.module';
 import { CartitemModule } from './cartitem/cartitem.module';
 import { OrderModule } from './order/order.module';
 import { OrderitemModule } from './orderitem/orderitem.module';
+import { ClinicModule } from './clinic/clinic.module';
 
 @Module({
   imports: [
@@ -136,6 +137,7 @@ import { OrderitemModule } from './orderitem/orderitem.module';
     CartitemModule,
     OrderModule,
     OrderitemModule,
+    ClinicModule
   ],
   providers: [MidtransService],
   controllers: [MidtransController],

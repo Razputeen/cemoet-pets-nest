@@ -26,6 +26,11 @@ export class ClinicController {
     });
   }
 
+  @Get('path')
+  test() {
+    return this.clinicService.test();
+  }
+
   @Get()
   findAll() {
     return this.clinicService.findAll();

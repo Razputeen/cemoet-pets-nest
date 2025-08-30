@@ -75,6 +75,10 @@ export class ClinicService {
     }
   }
 
+  async test(){
+    return "test"
+  }
+
   async update(id: string, updateClinicDto: any) {
     try {
       this.logger.log(`Updating clinic with ID: ${id}`);

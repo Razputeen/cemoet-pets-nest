@@ -71,7 +71,7 @@ export class UsersService {
   try {
     return await this.usersRepository.findOneOrFail({
       where: { id },
-      relations: ['role', 'reserveGroom', 'cart']
+      relations: ['role', 'reserveGroom', 'cart', 'clinic']
     });
     } catch (e) {
       if (e instanceof EntityNotFoundError) {
