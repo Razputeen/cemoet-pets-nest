@@ -16,20 +16,22 @@ export class AlamatService {
     @InjectRepository(User)
     private userRepository: Repository<User>,
   ) {}
-  async create(createAlamatDto: CreateAlamatDto) {
-    let user: User | null = null;
-        if (createAlamatDto.userId){
-      const user = await this.userRepository.findOneByOrFail({ id: createAlamatDto.userId });
-    }
-    const alamat = new Alamat();
-    alamat.locationName = createAlamatDto.locationName;
-    alamat.penerima = createAlamatDto.penerima;
-    alamat.alamat = createAlamatDto.alamat;
-    alamat.user = user;
+async create(createAlamatDto: CreateAlamatDto) {
+  let user: User | null = null;
 
-    const result = this.alamatRepository.create(createAlamatDto);
-    return this.alamatRepository.save(result);
+  if (createAlamatDto.userId) {
+    user = await this.userRepository.findOneByOrFail({ id: createAlamatDto.userId });
   }
+
+  const alamat = new Alamat();
+  alamat.locationName = createAlamatDto.locationName;
+  alamat.penerima = createAlamatDto.penerima;
+  alamat.alamat = createAlamatDto.alamat;
+  alamat.user = user;
+
+  return this.alamatRepository.save(alamat);
+}
+
 
     async assignAlamat(alamatId: number, assignDto: AssignAlamatDto): Promise<Alamat> {
   const alamat = await this.alamatRepository.findOneByOrFail({ id: alamatId });
@@ -47,6 +49,25 @@ export class AlamatService {
       }
     );
   }
+
+async selectAlamat(userId: string, alamatId: number): Promise<Alamat> {
+  await this.alamatRepository.update(
+    { user: { id: userId } },
+    { isSelected: false },
+  );
+
+  await this.alamatRepository.update(
+    { id: alamatId, user: { id: userId } },
+    { isSelected: true },
+  );
+
+  return this.alamatRepository.findOneOrFail({
+    where: { id: alamatId, user: { id: userId } },
+    relations: ['user'],
+  });
+}
+
+
 
   findOne(id: number) {
     return `This action returns a #${id} alamat`;

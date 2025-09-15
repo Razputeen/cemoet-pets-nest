@@ -15,28 +15,44 @@ export class OrderService {
     return 'This action adds a new order';
   }
 
-  findAll() {
-    return this.orderRepository.find({
-      relations: ['user', 'cart', 'cart.items', 'cart.items.product',],
-    });
-  }
+findAll() {
+  return this.orderRepository.find({
+    relations: [
+      'user',
+      'cart',
+      'orderItems',         // parent wajib
+      'orderItems.product', // child relation
+      'orderItems.product.images',
+    ],
+  });
+}
 
-// order.service.ts
+// ✅ ambil order berdasarkan userId
 async findByUserId(userId: string) {
   return await this.orderRepository.find({
     where: { user: { id: userId } },
     relations: [
       'user',
-      'cart',
-      'orderItems', // << masukin pivot snapshot
+      'orderItems',
+      'orderItems.product',
+      'orderItems.product.images',
     ],
     order: { createdAt: 'DESC' },
   });
 }
 
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
+
+  findOne(id: string) {
+    return this.orderRepository.findOne({
+      where: { id },
+      relations: [
+        'user',
+        'orderItems',         // parent wajib
+        'orderItems.product', // child relation
+        'orderItems.product.images',
+      ],
+    });
   }
 
   update(id: number, updateOrderDto: UpdateOrderDto) {

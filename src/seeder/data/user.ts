@@ -17,6 +17,8 @@ export const userMasterData: User[] = [
     alamatPick: [],
     order: [],
     clinic: [],
+    hotelres: [],
+    review: [],
     isActive: true,
     createdAt: new Date(),
     updatedAt: new Date(),

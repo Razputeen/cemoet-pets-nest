@@ -27,6 +27,8 @@ export class ProductController {
     cb(null, true);
   },
 }))
+
+
 async create(
   @Body() body: any,
   @UploadedFiles() files: Express.Multer.File[],

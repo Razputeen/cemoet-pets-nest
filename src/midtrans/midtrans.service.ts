@@ -14,7 +14,16 @@ export class MidtransService {
     });
   }
 
-  async createTransaction(params: any) {
-    return this.snap.createTransaction(params);
-  }
+async createTransaction(params: any) {
+  const transaction = await this.snap.createTransaction({
+    ...params,
+    callbacks: {
+      finish: `${process.env.APP_URL}/order`,
+      unfinish: `${process.env.APP_URL}/midtrans/unfinish`,
+      error: `${process.env.APP_URL}/midtrans/error`,
+    },
+  });
+
+  return transaction;
+}
 }

@@ -2,7 +2,9 @@
 
 import { Cart } from '#/cart/entities/cart.entity';
 import { CartItem } from '#/cartitem/entities/cartitem.entity';
+import { OrderItem } from '#/orderitem/entities/orderitem.entity';
 import { ProductImage } from '#/productimage/entities/productimage.entity';
+import { Review } from '#/review/entities/review.entity';
 import {
   Column,
   CreateDateColumn,
@@ -56,6 +58,12 @@ export class Product {
   
   @OneToMany(() => CartItem, (item) => item.product)
   cartItems: CartItem[];
+  
+    @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
+  orderItems: OrderItem[];
+
+  @OneToMany(() => Review, (review) => review.product, { cascade: true, nullable: true })
+  reviews: Review[];
 
       @Column({ nullable: true })
   midtransToken: string;

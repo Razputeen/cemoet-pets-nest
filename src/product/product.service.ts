@@ -33,6 +33,22 @@ export class ProductService {
     await this.productImageRepo.save(images);
     return {...product, images};
   }
+  async getProductDetail(productId: string) {
+  return this.productRepository.findOne({
+    where: { id: productId },
+    relations: ['reviews', 'reviews.user'], // biar bisa ambil siapa yang review
+  });
+}
+
+    async getProductsWithRating() {
+    return this.productRepository
+      .createQueryBuilder('product')
+      .leftJoinAndSelect('product.reviews', 'review')
+      .addSelect('AVG(review.rating)', 'avgRating')
+      .addSelect('COUNT(review.id)', 'reviewCount')
+      .groupBy('product.id')
+      .getRawAndEntities();
+  }
 
   async checkoutById(productId: string, userId: string) {
     const product = await this.productRepository.findOne({

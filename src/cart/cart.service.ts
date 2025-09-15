@@ -86,56 +86,54 @@ async addToCart(userId: string, productId: string, quantity: number) {
 
 // cart.service.ts
 async checkout(cartId: string, userId: string) {
-  const user = await this.userRepository.findOneBy({ id: userId });
-  if (!user) throw new NotFoundException('User not found');
-
+  // ✅ user langsung dari req.user
   const cart = await this.cartRepository.findOne({
     where: { id: cartId },
     relations: ['items', 'items.product'],
   });
   if (!cart) throw new NotFoundException('Cart not found');
+  const user = await this.userRepository.findOne({
+    where: { id: userId },
+  });
+  if (!cart) throw new NotFoundException('User not found');
 
-  // Snapshot order items
-  const orderItemsData = cart.items.map((item) => ({
-    productId: item.product.id,
-    productName: item.product.name,
-    price: item.product.price,
-    quantity: item.quantity,
-    total: item.quantity * item.product.price,
-    
-  }));
+  const grossAmount = cart.items.reduce(
+    (sum, item) => sum + item.quantity * item.product.price,
+    0,
+  );
 
-  const grossAmount = orderItemsData.reduce((sum, i) => sum + i.total, 0);
-
-  // Buat transaksi ke Midtrans
   const transaction = await this.midtransService.createTransaction({
     transaction_details: {
       order_id: `ORDER-${cart.id}-${Date.now()}`,
       gross_amount: grossAmount,
     },
-    item_details: orderItemsData.map(i => ({
-      id: i.productId,
-      price: i.price,
-      quantity: i.quantity,
-      name: i.productName,
+    item_details: cart.items.map(item => ({
+      id: item.product.id,
+      price: item.product.price,
+      quantity: item.quantity,
+      name: item.product.name,
     })),
   });
 
-  // ✅ Simpan Order
   const order = this.orderRepository.create({
-    user,
+    user, // ✅ langsung dari token
     cart,
     status: "Processing",
   });
   await this.orderRepository.save(order);
 
-  // ✅ Simpan OrderItems (pivot ke order)
-  const orderItems = orderItemsData.map((oi) =>
-    this.orderItemRepository.create({ ...oi, order }),
+  const orderItems = cart.items.map((item) =>
+    this.orderItemRepository.create({
+      order,
+      product: item.product,
+      productName: item.product.name,
+      price: item.product.price,
+      quantity: item.quantity,
+      total: item.quantity * item.product.price,
+    }),
   );
   await this.orderItemRepository.save(orderItems);
 
-  // (opsional) kosongkan cart
   cart.items = [];
   cart.total = 0;
   cart.quantity = 0;
@@ -151,17 +149,20 @@ async checkout(cartId: string, userId: string) {
 
 
 
+
+
+
 async findByUserId(userId: string) {
   return await this.cartRepository.find({
     where: { user: { id: userId } },
-    relations: ['user', 'items', 'items.product.images',],
+    relations: ['user', 'items',],
   });
 }
 
   findAll() {
     return this.cartRepository.find(
       {
-        relations: ['user', 'items', 'items.product.images',],
+        relations: ['user', 'items',],
       }
     );
   }

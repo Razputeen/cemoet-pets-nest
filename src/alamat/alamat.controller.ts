@@ -19,6 +19,15 @@ export class AlamatController {
     return this.alamatService.findAll();
   }
 
+  @Patch(':id/select')
+async selectAlamat(
+  @Param('id') alamatId: number,
+  @Body('userId') userId: string,
+) {
+  return this.alamatService.selectAlamat(userId, alamatId);
+}
+
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.alamatService.findOne(+id);

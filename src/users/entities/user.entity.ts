@@ -3,7 +3,10 @@ import { Cart } from '#/cart/entities/cart.entity';
 import { Clinic } from '#/clinic/entities/clinic.entity';
 import { GroomingReservation } from '#/grooming-reservation/entities/grooming-reservation.entity';
 import { GroomingReservationService } from '#/grooming-reservation/grooming-reservation.service';
+import { HotelRes } from '#/hotel-res/entities/hotel-re.entity';
+import { Hotel } from '#/hotel/entities/hotel.entity';
 import { Order } from '#/order/entities/order.entity';
+import { Review } from '#/review/entities/review.entity';
 import { Role } from '#/role/entities/role.entity';
 import {
   Entity,
@@ -52,6 +55,14 @@ export class User {
 
   @OneToMany(() => Clinic, (clinic) => clinic.user, {nullable: true})
   clinic: Clinic[];
+
+  @OneToMany(() => HotelRes, (hotelres) => hotelres.user, {nullable: true})
+  hotelres: HotelRes[];
+
+  @OneToMany(() => Review, (review) => review.user, {
+    onDelete: 'CASCADE',
+  })
+  review: Review[];
   
   @Column({ default: true })
   isActive: boolean;

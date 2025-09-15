@@ -31,6 +31,10 @@ import { CartitemModule } from './cartitem/cartitem.module';
 import { OrderModule } from './order/order.module';
 import { OrderitemModule } from './orderitem/orderitem.module';
 import { ClinicModule } from './clinic/clinic.module';
+import { HotelModule } from './hotel/hotel.module';
+import { HotelResModule } from './hotel-res/hotel-res.module';
+import { AdsModule } from './ads/ads.module';
+import { ReviewModule } from './review/review.module';
 
 @Module({
   imports: [
@@ -137,7 +141,11 @@ import { ClinicModule } from './clinic/clinic.module';
     CartitemModule,
     OrderModule,
     OrderitemModule,
-    ClinicModule
+    ClinicModule,
+    HotelModule,
+    HotelResModule,
+    AdsModule,
+    ReviewModule,
   ],
   providers: [MidtransService],
   controllers: [MidtransController],

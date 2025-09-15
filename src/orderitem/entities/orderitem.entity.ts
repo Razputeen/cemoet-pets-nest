@@ -1,18 +1,23 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Order } from "#/order/entities/order.entity";
+import { Product } from "#/product/entities/product.entity";
 
+// orderitem.entity.ts
 @Entity()
 export class OrderItem {
   @PrimaryGeneratedColumn('increment')
-  id: string;
+  id: number;
 
   @ManyToOne(() => Order, (order) => order.orderItems, {
-    onDelete: "CASCADE"
+    onDelete: "CASCADE",
   })
   order: Order;
 
-  @Column()
-  productId: string;
+  // ✅ relasi ke Product (satu orderItem = satu produk)
+  @ManyToOne(() => Product, (product) => product.orderItems, {
+    eager: true, // biar otomatis ikut ke-load
+  })
+  product: Product;
 
   @Column()
   productName: string;
@@ -26,3 +31,4 @@ export class OrderItem {
   @Column()
   total: number;
 }
+
